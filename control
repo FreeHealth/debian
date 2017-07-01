@@ -1,0 +1,207 @@
+Source: freehealth
+Maintainer: Jerome Pinguet <jerome@jerome.cc>
+Uploaders: Jerome Pinguet <jerome@jerome.cc>,
+Section: science
+Priority: optional
+Build-Depends: debhelper (>= 9),
+               qtchooser,
+               libxext-dev,
+               zlib1g-dev,
+               libopencv-core-dev,
+               libopencv-highgui-dev,
+               libopencv-objdetect-dev,
+               libquazip5-dev,
+               libquazip5-headers,
+	       libquazip5-1,
+               qtbase5-dev,
+               qttools5-dev-tools,
+               libqt5svg5-dev,
+               qtscript5-dev,
+               qttools5-dev,
+               libqt5xmlpatterns5-dev,
+               qtxmlpatterns5-dev-tools
+Standards-Version: 3.9.8
+Homepage: https://freehealth.io
+
+Package: freehealth-project
+Architecture: all
+Depends: ${misc:Depends},
+         freehealth-ehr (>= ${source:Version}),
+         freediams (>= ${source:Version})
+Description: FreeHealth: free and open source tools for healthcare
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ This metapackage installs all applications belonging to
+ FreeHealth project.
+
+Package: freehealth-theme
+Architecture: all
+Depends: ${misc:Depends}
+Description: theme for the FreeHealth project
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ Default theme for the FreeHealth project applications.
+
+Package: freehealth-i18n
+Architecture: all
+Depends: ${misc:Depends}
+Description: translations of the FreeHealth project
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ This package contains the translations of the project.
+
+Package: freehealth-common-resources
+Architecture: all
+Depends: ${misc:Depends},
+         freehealth-theme (= ${source:Version}),
+         freehealth-i18n (= ${source:Version})
+Description: common data for the FreeHealth project applications
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ This metapackage contains the architecture independent data.
+
+Package: freehealth-ehr-resources
+Architecture: all
+Depends: ${misc:Depends}
+Suggests: freehealth-freedata (= ${binary:Version})
+Description: data for the FreeHealth EHR
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ This package contains the architecture independent data
+ specific to the FreeHealth EHR.
+
+Package: freehealth-freedata
+Architecture: all
+Depends: ${misc:Depends}
+Breaks: freehealth-ehr-resources (<< 0.7.4)
+Replaces: freehealth-ehr-resources (<< 0.7.4)
+Description: free extra-data for the FreeHealth project
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ This package contains the architecture independent free
+ extra-data (like free drugs database).
+
+Package: freehealth-ehr-doc-en
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}
+Enhances: freehealth-ehr
+Provides: freehealth-ehr-doc
+Description: FreeHealth EHR English documentation
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ This package contains the English documentation of FreeHealth EHR.
+
+Package: freehealth-ehr-doc-fr
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}
+Enhances: freehealth-ehr
+Provides: freehealth-ehr-doc
+Description: FreeHealth EHR French documentation
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ This package contains the French documentation of FreeHealth EHR.
+
+Package: freediams-doc-en
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}
+Enhances: freediams
+Provides: freediams-doc
+Description: FreeDiams English documentation
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ FreeDiams is a pharmaceutical drug prescriptor assistant.
+ It can be used to creation complex prescription and to manage
+ drugs interactions.
+ .
+ This package contains the English documentation of freediams.
+
+Package: freediams-doc-fr
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}
+Enhances: freediams
+Provides: freediams-doc
+Description: FreeDiams French documentation
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ FreeDiams is a pharmaceutical drug prescriptor assistant.
+ It can be used to creation complex prescription and to manage
+ drugs interactions.
+ .
+ This package contains the French documentation of freediams.
+
+Package: freehealth-libs
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libqt5sql5-mysql,
+         libqt5sql5-sqlite
+Pre-Depends: ${misc:Pre-Depends}
+Description: common libs for the FreeHealth project
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ This package contains common libs of the project.
+
+Package: freehealth-ehr
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         freehealth-libs (= ${binary:Version}),
+         freehealth-freedata (= ${source:Version}),
+         freehealth-common-resources (= ${source:Version}),
+         freehealth-ehr-resources (= ${source:Version})
+Suggests: freehealth-ehr-doc-en,
+          freehealth-ehr-doc-fr
+Breaks: freehealth
+Replaces: freehealth
+Description: Electronic Health Record
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ The main objective of FreeHealth electronic medical
+ records is to manage the EMR based on your medical
+ practice or the practice of clinical research groups.
+
+Package: freediams
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         freehealth-libs (= ${binary:Version}),
+         freehealth-freedata (= ${source:Version}),
+         freehealth-common-resources (= ${source:Version})
+Suggests: freediams-doc,
+          ttf-mscorefonts-installer
+Description: pharmaceutical drug prescription and interaction manager
+ The FreeHealth project provides a set of medical applications to help
+ health professionals in their day-to-day practice. It is developed by an
+ international community of medical doctors and computer specialists.
+ .
+ FreeDiams is a pharmaceutical drug prescription assistant which can be
+ used to create complex prescriptions and to handle drug interactions.

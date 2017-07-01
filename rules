@@ -1,0 +1,99 @@
+#!/usr/bin/make -f
+# (c) 2011-2013, Eric Maeker, MD (fr), The FreeMedForms project
+# This code is released under the BSD 3 clause license
+
+#--------------------------------------------------------------------
+# Comments on the updates:
+#--------------------------------------------------------------------
+#
+# The qmake command line is then shortened to
+#     qmake -r {spec} {release config} {LinuxIntegratedConfigFlag if required} {libs tags} {project_file}
+# Find the documentation of the new build process here
+#     https://freehealth.io/en/code/buildsystem
+#
+#--------------------------------------------------------------------
+
+# vars
+FREEHEALTH_EHR:=freehealth
+FREERX:=freediams
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+QT_VERSION=qt5
+QMAKE_GLOBAL_CONFIG:="CONFIG+=c++11" \
+		     "CONFIG+=LINUX_INTEGRATED" \
+                     "CONFIG+=dontbuildquazip" \
+                     LIBRARY_BASENAME="lib/$(DEB_HOST_MULTIARCH)"
+
+QMAKE_SUBPROJECT_CONFIG:="CONFIG+=dontbuildlibs" \
+                         "CONFIG+=dontinstallresources" \
+                         "CONFIG+=dontinstalllibs"
+
+QMAKE_IPATH:="INSTALL_ROOT_PATH=/usr/"
+QMAKE_COMPILING:=buildspecs/compiling.pri
+
+# func
+AUTOCONF_MAIN = -r $(QMAKE_GLOBAL_CONFIG) $(QMAKE_IPATH) $(1).pro
+AUTOCONF_SUB = -r $(QMAKE_GLOBAL_CONFIG) $(QMAKE_SUBPROJECT_CONFIG) $(QMAKE_IPATH) $(1).pro
+
+%:
+	dh $@ --parallel --buildsystem=qmake # --dbg-package=freehealth-project-dbg
+
+override_dh_auto_configure:
+	QT_SELECT=$(QT_VERSION) \
+	lrelease global_resources/translations/*.ts
+
+	QT_SELECT=$(QT_VERSION) \
+	dh_auto_configure -D$(FREEHEALTH_EHR) -- $(call AUTOCONF_MAIN, $(FREEHEALTH_EHR)) $(extra_configure_opts)
+	cp $(QMAKE_COMPILING) build/$(FREEHEALTH_EHR).pri
+
+	QT_SELECT=$(QT_VERSION) \
+	dh_auto_configure -D$(FREERX) -- $(call AUTOCONF_SUB, $(FREERX)) $(extra_configure_opts)
+	cp $(QMAKE_COMPILING) build/$(FREERX).pri
+
+override_dh_auto_clean:
+	# DEFINE affected files
+	#rm -f build/Qt*/FreeHealth/Utils/.obj/unix/global.o
+	#rm -f build/Qt*/FreeHealth/freehealth/.obj/unix/main.o
+	#rm -f build/Qt*/FreeHealth/Core/.obj/unix/*settings*.o
+	rm -Rf bin
+	rm -Rf build
+	rm -f global_resources/translations/[a-ps-z]*.qm
+	QT_SELECT=$(QT_VERSION) \
+	dh_auto_clean
+	find . -name Makefile -delete
+
+override_dh_auto_build:
+	cp build/$(FREEHEALTH_EHR).pri $(QMAKE_COMPILING)
+	QT_SELECT=$(QT_VERSION) \
+	dh_auto_build -D$(FREEHEALTH_EHR)
+
+	cp build/$(FREERX).pri $(QMAKE_COMPILING)
+	QT_SELECT=$(QT_VERSION) \
+	dh_auto_build -D$(FREERX)
+
+override_dh_auto_install:
+	cp build/$(FREEHEALTH_EHR).pri $(QMAKE_COMPILING)
+	QT_SELECT=$(QT_VERSION) \
+	dh_auto_install -D$(FREEHEALTH_EHR)/$(FREEHEALTH_EHR)-src -Smakefile -- INSTALL_ROOT=$(CURDIR)/debian/tmp
+
+	cp build/$(FREERX).pri $(QMAKE_COMPILING)
+	QT_SELECT=$(QT_VERSION) \
+	dh_auto_install -D$(FREERX)/$(FREERX)-src -Smakefile -- INSTALL_ROOT=$(CURDIR)/debian/tmp
+
+	# Remove empty dirs
+	find $(CURDIR)/debian/tmp/usr/share -type d -empty -delete
+
+#override_dh_makeshlibs:
+	# Try to fix lintian warnings (untested):
+	# W: freehealth-libs: postinst-has-useless-call-to-ldconfig
+	# W: freehealth-libs: postrm-has-useless-call-to-ldconfig
+	# Exclude the freehealth libs path
+	# dh_makeshlibs -X/usr/lib/$(DEB_HOST_MULTIARCH)/freehealth-common
+
+override_dh_builddeb:
+	dh_builddeb -- -Z xz
+
+get-orig-source:
+	mkdir -p ../tarballs
+	uscan --verbose --force-download --destdir=../tarballs
+

@@ -1,0 +1,5 @@
+usr/bin/freehealth*
+usr/lib/*/freehealth
+usr/share/applications/freehealth.desktop
+usr/share/pixmaps/freehealth.svg
+

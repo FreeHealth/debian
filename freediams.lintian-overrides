@@ -1,0 +1,16 @@
+#########################################################################################
+##### RPATH issue
+# The lintian message says:
+#    The only time a binary or shared library in a Debian package should set
+#    RPATH is if it is linked to private shared libraries in the same
+#    package. In that case, place those private shared libraries in
+#    /usr/lib/<package>.
+# This is actually the case and so the lintian error is a false alarm
+freediams: binary-or-shlib-defines-rpath usr/bin/freediams /usr/lib/*/freehealth-common
+freediams: binary-or-shlib-defines-rpath usr/lib/*/freediams/lib*.so /usr/lib/*/freehealth-common
+freediams: hardening-no-fortify-functions usr/lib/*/freediams/lib*.so
+
+#########################################################################################
+# Exclude false positives: These are no spelling errors but rather valid french words
+freediams: spelling-error-in-binary usr/lib/*/freediams/libMainWindow.so Ressources Resources
+freediams: spelling-error-in-binary usr/lib/*/freediams/libPrinter.so Nam Name

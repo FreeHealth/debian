@@ -1,0 +1,14 @@
+Document: freehealth-ehr-doc-fr
+Title: FreeHealth user's manual in French language
+Author: FreeHealth team
+Abstract: Electronic Health Record user manual, French version
+ The FreeHealth project is a set of free and open source
+ medical application used to help health professionals
+ in their current practice.
+ It is developed by a international community of medical
+ doctors and computer workers.
+Section: Science/Medicine
+
+Format: HTML
+Index: /usr/share/doc/freehealth-project/freehealth/fr/html/index.html
+Files: /usr/share/doc/freehealth-project/freehealth/fr/html/*

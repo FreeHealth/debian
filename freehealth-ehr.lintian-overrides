@@ -1,0 +1,18 @@
+#########################################################################################
+##### RPATH issue
+# The lintian message says:
+#    The only time a binary or shared library in a Debian package should set
+#    RPATH is if it is linked to private shared libraries in the same
+#    package. In that case, place those private shared libraries in
+#    /usr/lib/<arch>/<package>.
+# This is actually the case and so the lintian error is a false alarm
+freehealth-ehr: binary-or-shlib-defines-rpath usr/bin/freehealth /usr/lib/*/freehealth-common
+freehealth-ehr: binary-or-shlib-defines-rpath usr/lib/*/freehealth/lib*.so /usr/lib/*/freehealth-common
+freehealth-ehr: hardening-no-fortify-functions usr/lib/*/freehealth/*.so
+
+#########################################################################################
+# Exclude false positives: These are no spelling errors but rather valid french words
+# Or database field name
+freehealth-ehr: spelling-error-in-binary usr/lib/*/freehealth/libPrinter.so Nam Name
+freehealth-ehr: spelling-error-in-binary usr/lib/*/freehealth/libGir.so ment meant
+
