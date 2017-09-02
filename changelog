@@ -1,5 +1,11 @@
-freehealth (0.10.2-1) UNRELEASED; urgency=medium
+freehealth (0.10.2-2) UNRELEASED; urgency=medium
+
+  * Fix freehealth-ehr dependencies, remove breaks and replaces inside control 
+
+ -- Jerome Pinguet <jerome@jerome.cc>  Fri, 01 Sep 2017 23:48:22 +0200
+
+freehealth (0.10.2-1) stretch; urgency=medium
 
   * Initial release. (Closes: #XXXXXX)
 
- -- Jerome Pinguet <jerome@jerome.cc>  Sat, 01 Jul 2017 02:30:36 +0200
+ -- Jerome Pinguet <jerome@jerome.cc>  Thu, 31 Aug 2018 01:27:36 +0200

@@ -83,8 +83,6 @@ Description: data for the FreeHealth EHR
 Package: freehealth-freedata
 Architecture: all
 Depends: ${misc:Depends}
-Breaks: freehealth-ehr-resources (<< 0.7.4)
-Replaces: freehealth-ehr-resources (<< 0.7.4)
 Description: free extra-data for the FreeHealth project
  The FreeHealth project provides a set of medical applications to help
  health professionals in their day-to-day practice. It is developed by an
@@ -197,7 +195,6 @@ Depends: ${shlibs:Depends},
          freehealth-freedata (= ${source:Version}),
          freehealth-common-resources (= ${source:Version})
 Suggests: freediams-doc,
-          ttf-mscorefonts-installer
 Description: pharmaceutical drug prescription and interaction manager
  The FreeHealth project provides a set of medical applications to help
  health professionals in their day-to-day practice. It is developed by an
