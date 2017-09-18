@@ -1,6 +1,5 @@
 Source: freehealth
 Maintainer: Jerome Pinguet <jerome@jerome.cc>
-Uploaders: Jerome Pinguet <jerome@jerome.cc>,
 Section: science
 Priority: optional
 Build-Depends: debhelper (>= 9),
@@ -21,6 +20,8 @@ Build-Depends: debhelper (>= 9),
                libqt5xmlpatterns5-dev,
                qtxmlpatterns5-dev-tools
 Standards-Version: 3.9.8
+Vcs-Git: git://github.com/FreeHealth/freehealth.git
+Vcs-Browser: https://github.com/FreeHealth/freehealth
 Homepage: https://freehealth.io
 
 Package: freehealth-project
